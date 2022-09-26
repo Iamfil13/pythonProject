@@ -7,5 +7,8 @@ class TestFormPage:
         form_page.open()
         person = form_page.fill_fields_and_submit()
         result = form_page.from_result()
-       # assert f'{first_name} {last_name}' == result[0], 'the form has not been filled'
-       # assert email == result[1], 'the form has not been filled'
+
+        # assert '' == result[0], 'the form has not been filled'
+        # assert '' == result[1], 'the form has not been filled'
+
+

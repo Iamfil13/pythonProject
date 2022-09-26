@@ -1,36 +1,32 @@
 import time
 
 from selenium.webdriver import Keys
-
-from generator.generator import generated_person, generated_file
+from faker import Faker
 from pages.base_page import BasePage
 from locators.form_pages_locators import FormPageLocators as Locators
+
+faker_en = Faker('En')
 
 
 class FormPage(BasePage):
 
     def fill_fields_and_submit(self):
-        #first_name = 'Hello'
-        #last_name = 'World'
-        #email = 'hello@world.com'
-        person = generated_person()
-        path = generated_file()
 
         self.remove_footer()
-        self.element_is_visible(Locators.FIRST_NAME).send_keys(person.first_name)
-        self.element_is_visible(Locators.LAST_NAME).send_keys(person.last_name)
-        self.element_is_visible(Locators.EMAIL).send_keys(person.email)
+        self.element_is_visible(Locators.FIRST_NAME).send_keys(faker_en.first_name())
+        self.element_is_visible(Locators.LAST_NAME).send_keys(faker_en.last_name())
+        self.element_is_visible(Locators.EMAIL).send_keys(faker_en.email())
         self.element_is_visible(Locators.GENDER).click()
-        self.element_is_visible(Locators.MOBILE).send_keys(person.mobile)
+        self.element_is_visible(Locators.MOBILE).send_keys(faker_en.msisdn())
         subject = self.element_is_visible(Locators.SUBJECTS)
-        subject.send_keys(person.subject)
+        subject.send_keys('English')
         subject.send_keys(Keys.RETURN)
         self.element_is_visible(Locators.HOBBIES).click()
-        self.element_is_visible(Locators.FILE_INPUT).send_keys(path)
-        self.element_is_visible(Locators.CURRENT_ADDRESS).send_keys(person.current_address)
+        self.element_is_visible(Locators.FILE_INPUT).send_keys(
+            '/Users/maccube/PycharmProjects/pythonProject/requirements.txt')
+        self.element_is_visible(Locators.CURRENT_ADDRESS).send_keys(faker_en.address())
         self.element_is_visible(Locators.SUBMIT).click()
         time.sleep(5)
-        return person
 
     def from_result(self):
         result_list = self.elements_are_visible(Locators.RESULT_TABLE)
@@ -38,3 +34,4 @@ class FormPage(BasePage):
         # for i in result_list:
         #    result_text.append(i.text)
         return result_text
+
